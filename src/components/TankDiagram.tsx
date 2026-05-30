@@ -116,13 +116,13 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
 
     bafflesElements = (
       <g>
-        <rect x={lx} y={baffle_y_start} width={bw_px} height={baffle_h} fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" strokeWidth="1.5" />
+        <rect x={lx} y={baffle_y_start} width={bw_px} height={baffle_h} fill="var(--vessel-baffle-fill, rgba(16, 185, 129, 0.2))" stroke="var(--vessel-baffle-stroke, #10b981)" strokeWidth="1.5" />
         {n_B > 1 && (
-          <rect x={rx - bw_px} y={baffle_y_start} width={bw_px} height={baffle_h} fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" strokeWidth="1.5" />
+          <rect x={rx - bw_px} y={baffle_y_start} width={bw_px} height={baffle_h} fill="var(--vessel-baffle-fill, rgba(16, 185, 129, 0.2))" stroke="var(--vessel-baffle-stroke, #10b981)" strokeWidth="1.5" />
         )}
         {/* Bw Dimension */}
-        <line x1={lx} y1={y_top} x2={lx + bw_px} y2={y_top} stroke="#06b6d4" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-        <text x={lx + bw_px/2} y={y_top - 8} fill="#06b6d4" fontSize="11" textAnchor="middle" fontWeight="bold">Bw={B_w.toFixed(3)}m</text>
+        <line x1={lx} y1={y_top} x2={lx + bw_px} y2={y_top} stroke="var(--vessel-guide, #06b6d4)" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
+        <text x={lx + bw_px/2} y={y_top - 8} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="middle" fontWeight="bold">Bw={B_w.toFixed(3)}m</text>
       </g>
     );
   }
@@ -156,35 +156,35 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
 
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-      <div style={{ position: 'absolute', top: 20, left: 24, fontSize: '1rem', fontWeight: 600, color: '#9ca3af' }}>
+      <div style={{ position: 'absolute', top: 20, left: 24, fontSize: '1rem', fontWeight: 600, color: 'var(--vessel-title, #9ca3af)' }}>
         {title} ({headType} / {impellerType})
       </div>
       <svg viewBox={`0 0 500 ${Math.max(300, y_deepest + 80)}`} width="100%" style={{ height: 'auto' }}>
         <defs>
           <marker id="arrow-start" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 10 0 L 0 5 L 10 10 z" fill="#06b6d4" />
+            <path d="M 10 0 L 0 5 L 10 10 z" fill="var(--vessel-guide, #06b6d4)" />
           </marker>
           <marker id="arrow-end" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4" />
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--vessel-guide, #06b6d4)" />
           </marker>
         </defs>
 
         {/* Liquid Layer */}
-        <path d={liquidPath} fill="rgba(6, 182, 212, 0.12)" stroke="rgba(6, 182, 212, 0.4)" strokeWidth="1" />
+        <path d={liquidPath} fill="var(--vessel-liquid-fill, rgba(6, 182, 212, 0.12))" stroke="var(--vessel-liquid-stroke, rgba(6, 182, 212, 0.4))" strokeWidth="1" />
 
         {/* Vessel Outline */}
-        <path d={vesselPath} fill="none" stroke="#f3f4f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={vesselPath} fill="none" stroke="var(--vessel-outline, #f3f4f6)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
         {/* Top Flange */}
-        <line x1={lx - overhang} y1={y_lid} x2={rx + overhang} y2={y_lid} stroke="#f3f4f6" strokeWidth="4" strokeLinecap="round" />
-        <rect x={cx - motor_w/2} y={y_motor_top} width={motor_w} height={motor_h} fill="none" stroke="#f3f4f6" strokeWidth="2.5" />
-        <line x1={cx - motor_w * 0.75} y1={y_motor_top} x2={cx + motor_w * 0.75} y2={y_motor_top} stroke="#f3f4f6" strokeWidth="4" />
+        <line x1={lx - overhang} y1={y_lid} x2={rx + overhang} y2={y_lid} stroke="var(--vessel-outline, #f3f4f6)" strokeWidth="4" strokeLinecap="round" />
+        <rect x={cx - motor_w/2} y={y_motor_top} width={motor_w} height={motor_h} fill="none" stroke="var(--vessel-outline, #f3f4f6)" strokeWidth="2.5" />
+        <line x1={cx - motor_w * 0.75} y1={y_motor_top} x2={cx + motor_w * 0.75} y2={y_motor_top} stroke="var(--vessel-outline, #f3f4f6)" strokeWidth="4" />
 
         {/* Baffles */}
         {bafflesElements}
 
         {/* Shaft */}
-        <line x1={cx} y1={y_motor_top} x2={cx} y2={y_bottom_impeller} stroke="#9ca3af" strokeWidth={shaft_w_px} strokeLinecap="round" />
+        <line x1={cx} y1={y_motor_top} x2={cx} y2={y_bottom_impeller} stroke="var(--vessel-shaft, #9ca3af)" strokeWidth={shaft_w_px} strokeLinecap="round" />
 
         {/* Impellers */}
         {stages_y.map((y_imp, idx) => {
@@ -194,66 +194,66 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
           return (
             <g key={idx}>
               {impellerType === 'flat-turbine' && (
-                <rect x={cx - d_px * 0.37} y={y_imp - disk_h / 2} width={d_px * 0.74} height={disk_h} fill="#d1d5db" stroke="#4b5563" strokeWidth="1" />
+                <rect x={cx - d_px * 0.37} y={y_imp - disk_h / 2} width={d_px * 0.74} height={disk_h} fill="var(--vessel-shaft, #d1d5db)" stroke="var(--vessel-shaft-stroke, #4b5563)" strokeWidth="1" />
               )}
               
               {impellerType === 'pitched-paddle' && (
                 <>
-                  <polygon points={`${cx - half_hub},${y_imp - b_px / 3} ${cx - half_hub - blade_w},${y_imp - b_px / 2} ${cx - half_hub - blade_w},${y_imp + b_px / 6} ${cx - half_hub},${y_imp + b_px / 3}`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
-                  <polygon points={`${cx + half_hub},${y_imp - b_px / 3} ${cx + half_hub + blade_w},${y_imp - b_px / 6} ${cx + half_hub + blade_w},${y_imp + b_px / 2} ${cx + half_hub},${y_imp + b_px / 3}`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
+                  <polygon points={`${cx - half_hub},${y_imp - b_px / 3} ${cx - half_hub - blade_w},${y_imp - b_px / 2} ${cx - half_hub - blade_w},${y_imp + b_px / 6} ${cx - half_hub},${y_imp + b_px / 3}`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <polygon points={`${cx + half_hub},${y_imp - b_px / 3} ${cx + half_hub + blade_w},${y_imp - b_px / 6} ${cx + half_hub + blade_w},${y_imp + b_px / 2} ${cx + half_hub},${y_imp + b_px / 3}`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
               {impellerType === 'propeller' && (
                 <>
-                  <path d={`M ${cx - half_hub} ${y_imp} C ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp - b_px / 4}, ${cx - half_hub - blade_w} ${y_imp} C ${cx - half_hub - blade_w} ${y_imp + b_px / 2}, ${cx - half_hub - blade_w / 2} ${y_imp}, ${cx - half_hub} ${y_imp} Z`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
-                  <path d={`M ${cx + half_hub} ${y_imp} C ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp - b_px / 4}, ${cx + half_hub + blade_w} ${y_imp} C ${cx + half_hub + blade_w} ${y_imp + b_px / 2}, ${cx + half_hub + blade_w / 2} ${y_imp}, ${cx + half_hub} ${y_imp} Z`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
+                  <path d={`M ${cx - half_hub} ${y_imp} C ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp - b_px / 4}, ${cx - half_hub - blade_w} ${y_imp} C ${cx - half_hub - blade_w} ${y_imp + b_px / 2}, ${cx - half_hub - blade_w / 2} ${y_imp}, ${cx - half_hub} ${y_imp} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <path d={`M ${cx + half_hub} ${y_imp} C ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp - b_px / 4}, ${cx + half_hub + blade_w} ${y_imp} C ${cx + half_hub + blade_w} ${y_imp + b_px / 2}, ${cx + 72 + blade_w / 2} ${y_imp}, ${cx + half_hub} ${y_imp} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
               {impellerType === 'faudler' && (
                 <>
-                  <path d={`M ${cx - half_hub} ${y_imp - b_px / 4} Q ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp} L ${cx - half_hub - blade_w} ${y_imp + b_px / 2} Q ${cx - half_hub - blade_w / 2} ${y_imp + b_px / 4}, ${cx - half_hub} ${y_imp + b_px / 4} Z`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
-                  <path d={`M ${cx + half_hub} ${y_imp - b_px / 4} Q ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp} L ${cx + half_hub + blade_w} ${y_imp + b_px / 2} Q ${cx + half_hub + blade_w / 2} ${y_imp + b_px / 4}, ${cx + half_hub} ${y_imp + b_px / 4} Z`} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
+                  <path d={`M ${cx - half_hub} ${y_imp - b_px / 4} Q ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp} L ${cx - half_hub - blade_w} ${y_imp + b_px / 2} Q ${cx - half_hub - blade_w / 2} ${y_imp + b_px / 4}, ${cx - half_hub} ${y_imp + b_px / 4} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <path d={`M ${cx + half_hub} ${y_imp - b_px / 4} Q ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + 72 + blade_w} ${y_imp} L ${cx + half_hub + blade_w} ${y_imp + b_px / 2} Q ${cx + half_hub + blade_w / 2} ${y_imp + b_px / 4}, ${cx + half_hub} ${y_imp + b_px / 4} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
               {(impellerType === 'flat-paddle' || impellerType === 'flat-turbine') && (
                 <>
-                  <rect x={cx - half_hub - blade_w} y={y_imp - b_px / 2} width={blade_w} height={b_px} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
-                  <rect x={cx + half_hub} y={y_imp - b_px / 2} width={blade_w} height={b_px} fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
+                  <rect x={cx - half_hub - blade_w} y={y_imp - b_px / 2} width={blade_w} height={b_px} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <rect x={cx + half_hub} y={y_imp - b_px / 2} width={blade_w} height={b_px} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
 
-              <rect x={cx - half_hub} y={y_imp - hub_h / 2} width={hub_w_px} height={hub_h} fill="#9ca3af" />
+              <rect x={cx - half_hub} y={y_imp - hub_h / 2} width={hub_w_px} height={hub_h} fill="var(--vessel-shaft, #9ca3af)" />
             </g>
           );
         })}
 
         {/* Dimensions Guides */}
-        <g stroke="#06b6d4" strokeWidth="1.2" strokeDasharray="3 3">
+        <g stroke="var(--vessel-guide, #06b6d4)" strokeWidth="1.2" strokeDasharray="3 3">
           {/* DT Guides */}
           <path d={`M ${lx} ${y_cyl_bottom} L ${lx} ${y_deepest + 55}`} fill="none" />
           <path d={`M ${rx} ${y_cyl_bottom} L ${rx} ${y_deepest + 55}`} fill="none" />
           <line x1={lx} y1={y_deepest + 45} x2={rx} y2={y_deepest + 45} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-          <text x={cx} y={y_deepest + 38} fill="#06b6d4" fontSize="11" textAnchor="middle" fontWeight="bold" stroke="none">DT = {D_T.toFixed(3)} m</text>
+          <text x={cx} y={y_deepest + 38} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="middle" fontWeight="bold" stroke="none">DT = {D_T.toFixed(3)} m</text>
 
           {/* H Guides */}
           <path d={`M ${rx} ${y_liquid} L 460 ${y_liquid}`} fill="none" />
           <path d={`M ${cx} ${y_deepest} L 460 ${y_deepest}`} fill="none" />
           <line x1="450" y1={y_liquid} x2="450" y2={y_deepest} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-          <text x="455" y={(y_liquid + y_deepest) / 2} fill="#06b6d4" fontSize="11" transform={`rotate(90, 455, ${(y_liquid + y_deepest) / 2})`} style={{ textAnchor: 'middle', dominantBaseline: 'hanging' }} fontWeight="bold" stroke="none">H = {liquidHeight.toFixed(3)} m</text>
+          <text x="455" y={(y_liquid + y_deepest) / 2} fill="var(--vessel-guide, #06b6d4)" fontSize="11" transform={`rotate(90, 455, ${(y_liquid + y_deepest) / 2})`} style={{ textAnchor: 'middle', dominantBaseline: 'hanging' }} fontWeight="bold" stroke="none">H = {liquidHeight.toFixed(3)} m</text>
 
           {/* d Guide */}
           <path d={`M ${cx - d_px / 2} ${y_bottom_impeller} L ${cx - d_px / 2} ${y_bottom_impeller - b_px - 30}`} fill="none" />
           <path d={`M ${cx + d_px / 2} ${y_bottom_impeller} L ${cx + d_px / 2} ${y_bottom_impeller - b_px - 30}`} fill="none" />
           <line x1={cx - d_px / 2} y1={y_bottom_impeller - b_px - 20} x2={cx + d_px / 2} y2={y_bottom_impeller - b_px - 20} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-          <text x={cx} y={y_bottom_impeller - b_px - 26} fill="#06b6d4" fontSize="11" textAnchor="middle" fontWeight="bold" stroke="none">d = {d.toFixed(3)} m</text>
+          <text x={cx} y={y_bottom_impeller - b_px - 26} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="middle" fontWeight="bold" stroke="none">d = {d.toFixed(3)} m</text>
 
           {/* C Guide */}
           <line x1={cx + 25} y1={y_bottom_impeller + b_px / 2} x2={cx + 25} y2={y_deepest} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-          <text x={cx + 35} y={(y_bottom_impeller + b_px / 2 + y_deepest) / 2 + 4} fill="#06b6d4" fontSize="11" textAnchor="start" fontWeight="bold" stroke="none">C = {clearance.toFixed(3)} m</text>
+          <text x={cx + 35} y={(y_bottom_impeller + b_px / 2 + y_deepest) / 2 + 4} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="start" fontWeight="bold" stroke="none">C = {clearance.toFixed(3)} m</text>
 
           {/* b Guide */}
           <line x1={cx + d_px / 2 + 25} y1={y_bottom_impeller - b_px / 2} x2={cx + d_px / 2 + 25} y2={y_bottom_impeller + b_px / 2} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
-          <text x={cx + d_px / 2 + 35} y={y_bottom_impeller + 4} fill="#06b6d4" fontSize="11" textAnchor="start" fontWeight="bold" stroke="none">b = {b.toFixed(3)} m</text>
+          <text x={cx + d_px / 2 + 35} y={y_bottom_impeller + 4} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="start" fontWeight="bold" stroke="none">b = {b.toFixed(3)} m</text>
         </g>
       </svg>
     </div>

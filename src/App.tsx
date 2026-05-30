@@ -246,7 +246,7 @@ export default function App() {
         const canvas = await html2canvas(el, {
           scale: 2, // High resolution capture
           useCORS: true,
-          backgroundColor: '#0b1329',
+          backgroundColor: '#ffffff',
           logging: false
         });
 
@@ -2127,7 +2127,7 @@ export default function App() {
       </div>
 
       {isGeneratingPdf && (
-        <div id="pdf-report-container" style={{ position: 'absolute', left: '-9999px', top: 0, width: '800px', background: '#0b1329', padding: 0, color: '#f8fafc', fontFamily: 'sans-serif' }}>
+        <div id="pdf-report-container" style={{ position: 'absolute', left: '-9999px', top: 0, width: '800px', background: '#ffffff', padding: 0, color: '#0f172a', fontFamily: 'sans-serif' }}>
           
           {/* PAGE 1: Cover & Operating Conditions */}
           <div id="pdf-page-1" className="pdf-report-page">
@@ -2137,11 +2137,11 @@ export default function App() {
             </div>
             
             <div style={{ margin: '2rem 0', textAlign: 'center' }}>
-              <h1 style={{ fontSize: '2.2rem', color: '#3b82f6', marginBottom: '0.5rem' }}>攪拌槽スケールアップ解析評価書</h1>
-              <p style={{ color: '#94a3b8', fontSize: '1rem' }}>Stirred Tank Scale-Up Evaluation & Characterization Report</p>
+              <h1 style={{ fontSize: '2.2rem', color: '#1e3a8a', marginBottom: '0.5rem' }}>攪拌槽スケールアップ解析評価書</h1>
+              <p style={{ color: '#475569', fontSize: '1rem' }}>Stirred Tank Scale-Up Evaluation & Characterization Report</p>
             </div>
 
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>液物性・共通条件</h3>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>液物性・共通条件</h3>
             <table className="pdf-table" style={{ marginBottom: '2rem' }}>
               <thead>
                 <tr>
@@ -2164,7 +2164,7 @@ export default function App() {
               </tbody>
             </table>
 
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>攪拌槽・幾何パラメータ比較</h3>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>攪拌槽・幾何パラメータ比較</h3>
             <table className="pdf-table">
               <thead>
                 <tr>
@@ -2245,18 +2245,18 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>評価対象のスケールアップ基準と概要</h3>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>評価対象のスケールアップ基準と概要</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
               {criteriaConfig.map(crit => {
                 const isSelected = selectedCriteria[crit.id];
                 return (
-                  <div key={crit.id} style={{ background: 'rgba(255,255,255,0.02)', border: `1px solid ${isSelected ? crit.color : 'rgba(255,255,255,0.05)'}`, borderRadius: '8px', padding: '15px', opacity: isSelected ? 1 : 0.4 }}>
+                  <div key={crit.id} style={{ background: '#f8fafc', border: `1px solid ${isSelected ? crit.color : '#e2e8f0'}`, borderRadius: '8px', padding: '15px', opacity: isSelected ? 1 : 0.5 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <strong style={{ color: crit.color, fontSize: '1rem' }}>{crit.label}</strong>
-                      <span style={{ fontSize: '0.8rem', color: isSelected ? '#34d399' : '#64748b', fontWeight: 'bold' }}>{isSelected ? '評価対象' : '評価対象外'}</span>
+                      <span style={{ fontSize: '0.8rem', color: isSelected ? '#16a34a' : '#64748b', fontWeight: 'bold' }}>{isSelected ? '評価対象' : '評価対象外'}</span>
                     </div>
-                    <div style={{ fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '6px', color: '#e2e8f0' }}>{crit.similarityTitle}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', lineHeight: 1.45 }}>{crit.description}</div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '6px', color: '#1e293b' }}>{crit.similarityTitle}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#475569', lineHeight: 1.45 }}>{crit.description}</div>
                   </div>
                 );
               })}
@@ -2275,12 +2275,12 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>槽構造比較図 (比例縮尺)</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '2.5rem' }}>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>槽構造比較図 (比例縮尺)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '2.5rem' }}>
               両槽の幾何的寸法を同一縮尺で比較した図面です。スケールアップに伴うアスペクト比やクリアランス、翼相対寸法の変化を視覚的に評価できます。
             </p>
-            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', flex: 1, maxHeight: '650px', background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '30px' }}>
-              <div style={{ background: 'rgba(15, 23, 42, 0.3)', borderRadius: '8px', padding: '15px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', flex: 1, maxHeight: '650px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '30px' }}>
+              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '15px' }}>
                 <TankDiagram 
                   tankParams={{
                     D_T: tankA.D, H: hA, d: tankA.d, b: tankA.b, np: tankA.np, theta_deg: tankA.theta_deg,
@@ -2292,8 +2292,8 @@ export default function App() {
                   title="Tank A (Scale 1)" 
                 />
               </div>
-              <div style={{ height: '200px', width: '2px', borderLeft: '2px dashed rgba(255,255,255,0.1)' }}></div>
-              <div style={{ background: 'rgba(15, 23, 42, 0.3)', borderRadius: '8px', padding: '15px' }}>
+              <div style={{ height: '200px', width: '2px', borderLeft: '2px dashed #cbd5e1' }}></div>
+              <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '15px' }}>
                 <TankDiagram 
                   tankParams={{
                     D_T: tankB.D, H: hB, d: tankB.d, b: tankB.b, np: tankB.np, theta_deg: tankB.theta_deg,
@@ -2320,27 +2320,27 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>① スケールアップ挙動解析 (運転スケール依存性)</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '2rem' }}>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>① スケールアップ挙動解析 (運転スケール依存性)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '2rem' }}>
               実線（左軸：{scaleUpYVarConfig[scaleUpYVarLeft].label.split(' ')[1]}）および破線（右軸：{scaleUpYVarConfig[scaleUpYVarRight].label.split(' ')[1]}）のスケール依存性グラフです。
             </p>
             
-            <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <LineChart width={700} height={450} data={scaleUpChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0, 0, 0, 0.15)" />
                 {scaleupMinorTicksX.map(tick => (
-                  <ReferenceLine key={`minor-x-${tick}`} x={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`minor-x-${tick}`} x={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
                 {scaleupMinorTicksYLeft.map(tick => (
-                  <ReferenceLine key={`minor-y-${tick}`} y={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`minor-y-${tick}`} y={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
-                <XAxis dataKey="v" type="number" scale="log" domain={xDomain} ticks={logTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `${formatNumber(val)}` : ''; }} stroke="#94a3b8" />
-                <YAxis yAxisId="left" type="number" scale="log" domain={yDomainLeft} allowDataOverflow={true} ticks={logTicks.yTicksLeft} tickFormatter={(val) => formatNumber(val)} stroke="#94a3b8" />
-                <YAxis yAxisId="right" orientation="right" type="number" scale="log" domain={yDomainRight} allowDataOverflow={true} ticks={logTicks.yTicksRight} tickFormatter={(val) => formatNumber(val)} stroke="#94a3b8" />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.95)', borderColor: 'var(--panel-border)', borderRadius: '8px', color: 'var(--text-primary)' }} labelFormatter={(label) => `液量: ${formatNumber(label as number)} L`} />
+                <XAxis dataKey="v" type="number" scale="log" domain={xDomain} ticks={logTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `${formatNumber(val)}` : ''; }} stroke="#475569" />
+                <YAxis yAxisId="left" type="number" scale="log" domain={yDomainLeft} allowDataOverflow={true} ticks={logTicks.yTicksLeft} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
+                <YAxis yAxisId="right" orientation="right" type="number" scale="log" domain={yDomainRight} allowDataOverflow={true} ticks={logTicks.yTicksRight} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#cbd5e1', borderRadius: '8px', color: '#0f172a' }} labelFormatter={(label) => `液量: ${formatNumber(label as number)} L`} />
                 <Legend 
                   verticalAlign="bottom"
-                  wrapperStyle={{ paddingTop: '1.5rem', color: '#f8fafc' }}
+                  wrapperStyle={{ paddingTop: '1.5rem', color: '#334155' }}
                   formatter={(value) => { 
                     const [id, type] = value.split('_'); 
                     const crit = criteriaConfig.find(c => c.id === id); 
@@ -2348,8 +2348,8 @@ export default function App() {
                     return <span style={{ color: crit?.color, fontWeight: 500 }}>{crit?.label.split(' ')[1]} ({varName})</span>; 
                   }} 
                 />
-                <ReferenceLine yAxisId="left" x={volA} stroke="#f97316" strokeWidth={2} />
-                <ReferenceLine yAxisId="left" x={volB} stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" />
+                <ReferenceLine yAxisId="left" x={volA} stroke="#c2410c" strokeWidth={2} />
+                <ReferenceLine yAxisId="left" x={volB} stroke="#15803d" strokeWidth={2} strokeDasharray="5 5" />
                 {criteriaConfig.map(crit => {
                   if (!selectedCriteria[crit.id]) return null;
                   return [
@@ -2373,27 +2373,27 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>② スケール比相関解析 (運転パラメータ変化)</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '2rem' }}>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>② スケール比相関解析 (運転パラメータ変化)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '2rem' }}>
               実線（左軸：{ratioYVarConfig[ratioYVarLeft].label.split(' ')[1]}）および破線（右軸：{ratioYVarConfig[ratioYVarRight].label.split(' ')[1]}）のスケール比依存性相関図です。
             </p>
             
-            <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <LineChart width={700} height={450} data={ratioChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0, 0, 0, 0.15)" />
                 {ratioMinorTicksX.map(tick => (
-                  <ReferenceLine key={`rm-x-${tick}`} x={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`rm-x-${tick}`} x={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
                 {ratioMinorTicksYLeft.map(tick => (
-                  <ReferenceLine key={`rm-yl-${tick}`} y={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`rm-yl-${tick}`} y={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
-                <XAxis dataKey="ratio" type="number" scale="log" domain={ratioXDomain} ticks={ratioTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `${val}` : ''; }} stroke="#94a3b8" />
-                <YAxis yAxisId="left" type="number" scale="log" domain={ratioYDomainLeft} allowDataOverflow={true} ticks={ratioTicks.yTicksLeft} tickFormatter={(val) => formatNumber(val)} stroke="#94a3b8" />
-                <YAxis yAxisId="right" orientation="right" type="number" scale="log" domain={ratioYDomainRight} allowDataOverflow={true} ticks={ratioTicks.yTicksRight} tickFormatter={(val) => formatNumber(val)} stroke="#94a3b8" />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.95)', borderColor: 'var(--panel-border)', borderRadius: '8px', color: 'var(--text-primary)' }} labelFormatter={(label) => `スケール比: ${formatNumber(label as number)}`} />
+                <XAxis dataKey="ratio" type="number" scale="log" domain={ratioXDomain} ticks={ratioTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `${val}` : ''; }} stroke="#475569" />
+                <YAxis yAxisId="left" type="number" scale="log" domain={ratioYDomainLeft} allowDataOverflow={true} ticks={ratioTicks.yTicksLeft} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
+                <YAxis yAxisId="right" orientation="right" type="number" scale="log" domain={ratioYDomainRight} allowDataOverflow={true} ticks={ratioTicks.yTicksRight} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#cbd5e1', borderRadius: '8px', color: '#0f172a' }} labelFormatter={(label) => `スケール比: ${formatNumber(label as number)}`} />
                 <Legend 
                   verticalAlign="bottom"
-                  wrapperStyle={{ paddingTop: '1.5rem', color: '#f8fafc' }}
+                  wrapperStyle={{ paddingTop: '1.5rem', color: '#334155' }}
                   formatter={(value) => { 
                     const [id, type] = value.split('_'); 
                     const crit = criteriaConfig.find(c => c.id === id); 
@@ -2401,7 +2401,7 @@ export default function App() {
                     return <span style={{ color: crit?.color, fontWeight: 500 }}>{crit?.label.split(' ')[1]} ({varName}比)</span>; 
                   }} 
                 />
-                <ReferenceLine yAxisId="left" x={volB / volA} stroke="#10b981" strokeWidth={2} strokeDasharray="5 5" />
+                <ReferenceLine yAxisId="left" x={volB / volA} stroke="#15803d" strokeWidth={2} strokeDasharray="5 5" />
                 {criteriaConfig.map(crit => {
                   if (!selectedCriteria[crit.id]) return null;
                   return [
@@ -2425,30 +2425,30 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>③ 動力特性特性解析 (ラシュトン線図)</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '2rem' }}>
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>③ 動力特性特性解析 (ラシュトン線図)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '2rem' }}>
               層流〜遷移域〜乱流域における動力数 Np のレイノルズ数 Re 依存性と、設計運転点のプロット図です。
             </p>
             
-            <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <LineChart width={700} height={450} data={rushtonChartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0, 0, 0, 0.15)" />
                 {rushtonMinorTicksX.map(tick => (
-                  <ReferenceLine key={`ru-x-${tick}`} x={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`ru-x-${tick}`} x={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
                 {rushtonMinorTicksY.map(tick => (
-                  <ReferenceLine key={`ru-y-${tick}`} y={tick} stroke="rgba(255, 255, 255, 0.03)" strokeWidth={0.5} />
+                  <ReferenceLine key={`ru-y-${tick}`} y={tick} stroke="rgba(0, 0, 0, 0.04)" strokeWidth={0.5} />
                 ))}
-                <XAxis dataKey="Re" scale="log" domain={rushtonDomain.x} type="number" ticks={rushtonTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `10^${Math.round(l)}` : ''; }} stroke="#94a3b8" />
-                <YAxis scale="log" domain={rushtonDomain.y} ticks={rushtonTicks.yTicks} tickFormatter={(val) => formatNumber(val)} stroke="#94a3b8" />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.95)', borderColor: 'var(--panel-border)', borderRadius: '8px', color: 'var(--text-primary)' }} labelFormatter={(label) => `Re = ${formatNumber(label as number)}`} />
-                <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '1.5rem', color: '#f8fafc' }} />
-                <Line type="monotone" dataKey="NpA" name={`Tank A (${tankA.type})`} stroke="var(--accent-orange)" strokeWidth={3} dot={false} />
-                <Line type="monotone" dataKey="NpB" name={`Tank B (${tankB.type})`} stroke="var(--accent-green)" strokeWidth={3} dot={false} strokeDasharray="5 5" />
+                <XAxis dataKey="Re" scale="log" domain={rushtonDomain.x} type="number" ticks={rushtonTicks.xTicks} tickFormatter={(val) => { const l = Math.log10(val); return Math.abs(l - Math.round(l)) < 1e-6 ? `10^${Math.round(l)}` : ''; }} stroke="#475569" />
+                <YAxis scale="log" domain={rushtonDomain.y} ticks={rushtonTicks.yTicks} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#cbd5e1', borderRadius: '8px', color: '#0f172a' }} labelFormatter={(label) => `Re = ${formatNumber(label as number)}`} />
+                <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '1.5rem', color: '#334155' }} />
+                <Line type="monotone" dataKey="NpA" name={`Tank A (${tankA.type})`} stroke="#c2410c" strokeWidth={3} dot={false} />
+                <Line type="monotone" dataKey="NpB" name={`Tank B (${tankB.type})`} stroke="#15803d" strokeWidth={3} dot={false} strokeDasharray="5 5" />
                 {rushtonOperatingPoints.map(pt => (
                   <ReferenceDot 
-                    key={pt.id} x={pt.Re} y={pt.Np} r={6} fill={pt.color} stroke="#0b1329" strokeWidth={2}
-                    label={{ value: pt.label.replace('Tank B (', '').replace(')', ''), position: 'top', fill: '#f8fafc', fontSize: 10 }}
+                    key={pt.id} x={pt.Re} y={pt.Np} r={6} fill={pt.color} stroke="#ffffff" strokeWidth={2}
+                    label={{ value: pt.label.replace('Tank B (', '').replace(')', ''), position: 'top', fill: '#334155', fontSize: 10 }}
                   />
                 ))}
               </LineChart>
@@ -2467,39 +2467,39 @@ export default function App() {
               <div className="date">{new Date().toLocaleDateString('ja-JP')}</div>
             </div>
             
-            <h3 style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem', color: '#60a5fa', fontSize: '1.1rem' }}>④ 推算結果 比較一覧</h3>
-            <p style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-              Tank A (Scale 1) と、各スケールアップ基準を適用した Tank B (Scale 2) のパラメータ推算結果の比較一覧表です。
+            <h3 style={{ borderBottom: '2px solid #1e3a8a', paddingBottom: '0.5rem', color: '#1e3a8a', fontSize: '1.1rem', fontWeight: 'bold' }}>④ 推算結果 比較一覧</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+              Tank A (Scale 1) と、各スケールアップ基準を適用した Tank B (Scale 2) のパラメータ推算結果 of 比較一覧表です。
             </p>
             
             <table className="pdf-table" style={{ fontSize: '0.75rem' }}>
               <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.05)' }}>
+                <tr style={{ background: '#f1f5f9' }}>
                   <th>パラメータ</th>
-                  <th style={{ color: 'var(--accent-orange)' }}>Tank A</th>
+                  <th style={{ color: '#c2410c' }}>Tank A</th>
                   {comparativeTableData.columns.map((col, idx) => (
-                    <th key={idx} style={{ color: 'var(--accent-green)' }}>Tank B ({col.label})</th>
+                    <th key={idx} style={{ color: '#15803d' }}>Tank B ({col.label})</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                <tr style={{ background: '#f8fafc' }}>
                   <td><strong>幾何パラメータ</strong></td>
                   <td colSpan={1 + comparativeTableData.columns.length}></td>
                 </tr>
                 <tr>
                   <td>液量 V (L)</td>
-                  <td style={{ color: 'var(--accent-orange)', fontFamily: 'monospace' }}>{formatNumber(volA)}</td>
+                  <td style={{ color: '#c2410c', fontFamily: 'monospace' }}>{formatNumber(volA)}</td>
                   {comparativeTableData.columns.map((_, cIdx) => <td key={cIdx} style={{ fontFamily: 'monospace' }}>{formatNumber(volB)}</td>)}
                 </tr>
                 <tr>
                   <td>液深 H (m)</td>
-                  <td style={{ color: 'var(--accent-orange)', fontFamily: 'monospace' }}>{formatNumber(hA)}</td>
+                  <td style={{ color: '#c2410c', fontFamily: 'monospace' }}>{formatNumber(hA)}</td>
                   {comparativeTableData.columns.map((_, cIdx) => <td key={cIdx} style={{ fontFamily: 'monospace' }}>{formatNumber(hB)}</td>)}
                 </tr>
                 <tr>
                   <td>翼径 d (m)</td>
-                  <td style={{ color: 'var(--accent-orange)', fontFamily: 'monospace' }}>{formatNumber(tankA.d)}</td>
+                  <td style={{ color: '#c2410c', fontFamily: 'monospace' }}>{formatNumber(tankA.d)}</td>
                   {comparativeTableData.columns.map((_, cIdx) => <td key={cIdx} style={{ fontFamily: 'monospace' }}>{formatNumber(tankB.d)}</td>)}
                 </tr>
 
@@ -2529,14 +2529,14 @@ export default function App() {
                   }
                 ].map((cat, catIdx) => (
                   <React.Fragment key={`pdf-cat-${catIdx}`}>
-                    <tr style={{ background: 'rgba(255,255,255,0.02)' }}>
+                    <tr style={{ background: '#f8fafc' }}>
                       <td><strong>{cat.category}</strong></td>
                       <td colSpan={1 + comparativeTableData.columns.length}></td>
                     </tr>
                     {cat.rows.map((row, rIdx) => (
                       <tr key={`pdf-row-${catIdx}-${rIdx}`}>
                         <td>{row.name} {row.unit !== '-' ? `(${row.unit})` : ''}</td>
-                        <td style={{ color: 'var(--accent-orange)', fontFamily: 'monospace' }}>
+                        <td style={{ color: '#c2410c', fontFamily: 'monospace' }}>
                           {formatNumber((comparativeTableData.tankA as any)[row.key])}
                         </td>
                         {comparativeTableData.columns.map((col, cIdx) => (

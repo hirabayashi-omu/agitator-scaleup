@@ -354,8 +354,8 @@ select option {
   height: 1130px;
   box-sizing: border-box;
   padding: 50px;
-  background: #0b1329;
-  color: #f8fafc;
+  background: #ffffff;
+  color: #0f172a;
   font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
   display: flex;
   flex-direction: column;
@@ -365,7 +365,7 @@ select option {
 }
 
 .pdf-report-header {
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #1e3a8a;
   padding-bottom: 12px;
   margin-bottom: 20px;
   display: flex;
@@ -376,12 +376,12 @@ select option {
 .pdf-report-header h2 {
   margin: 0;
   font-size: 1.4rem;
-  color: #3b82f6;
+  color: #1e3a8a;
 }
 
 .pdf-report-header .date {
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: #475569;
 }
 
 .pdf-report-footer {
@@ -391,10 +391,10 @@ select option {
   right: 50px;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid #cbd5e1;
   padding-top: 10px;
   font-size: 0.75rem;
-  color: #64748b;
+  color: #475569;
 }
 
 .pdf-table {
@@ -406,21 +406,36 @@ select option {
 }
 
 .pdf-table th, .pdf-table td {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #cbd5e1;
   padding: 8px 10px;
   text-align: left;
 }
 
 .pdf-table th {
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
+  background: #f1f5f9;
+  color: #1e293b;
   font-weight: 600;
 }
 
 .pdf-table td.highlight {
-  color: var(--accent-orange);
+  color: #c2410c;
 }
 
 .pdf-table td.highlight-green {
-  color: var(--accent-green);
+  color: #15803d;
+}
+
+/* Override TankDiagram colors specifically for PDF output */
+#pdf-report-container {
+  --vessel-outline: #334155;
+  --vessel-shaft: #64748b;
+  --vessel-shaft-stroke: #475569;
+  --vessel-liquid-fill: rgba(6, 182, 212, 0.15);
+  --vessel-liquid-stroke: rgba(6, 182, 212, 0.6);
+  --vessel-guide: #0369a1;
+  --vessel-baffle-stroke: #059669;
+  --vessel-baffle-fill: rgba(5, 150, 105, 0.15);
+  --vessel-impeller-fill: #db2777;
+  --vessel-impeller-stroke: #be185d;
+  --vessel-title: #334155;
 }
