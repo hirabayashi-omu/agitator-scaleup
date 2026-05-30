@@ -42,7 +42,7 @@ export function calculateKameiNp(params: AgitatorParams, Re: number): number {
   const Re_G = ((Math.PI * eta * Math.log(D_T / d)) / (4 * (d / (beta * D_T)))) * Re;
   
   const f = C_L / Re_G + C_t * Math.pow(1 / (C_u / Re_G + Re_G) + Math.pow(f_inf / C_t, 1 / m), m);
-  const Np_0 = ((1.2 * Math.pow(Math.PI, 4) * beta * beta) / V_d) * f;
+  const Np_0 = ((1.2 * Math.pow(Math.PI, 4) * beta * beta) / V_d) * f * n_stage;
 
   if (!baffled) {
     return Np_0;

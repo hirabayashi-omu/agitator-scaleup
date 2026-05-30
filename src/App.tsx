@@ -1069,7 +1069,13 @@ export default function App() {
                   </div>
                   <div className="input-field">
                     <label>角度 θ (°)</label>
-                    <input type="number" value={tankA.theta_deg} onChange={e => setTankA({...tankA, theta_deg: Number(e.target.value)})} step="1" />
+                    <input 
+                      type="number" 
+                      value={tankA.theta_deg} 
+                      onChange={e => setTankA({...tankA, theta_deg: Number(e.target.value)})} 
+                      step="1" 
+                      disabled={tankA.type === 'flat-paddle' || tankA.type === 'flat-turbine'}
+                    />
                   </div>
                 </div>
 
@@ -1173,7 +1179,13 @@ export default function App() {
                   </div>
                   <div className="input-field">
                     <label>角度 θ (°)</label>
-                    <input type="number" value={tankB.theta_deg} onChange={e => setTankB({...tankB, theta_deg: Number(e.target.value)})} step="1" />
+                    <input 
+                      type="number" 
+                      value={tankB.theta_deg} 
+                      onChange={e => setTankB({...tankB, theta_deg: Number(e.target.value)})} 
+                      step="1" 
+                      disabled={tankB.type === 'flat-paddle' || tankB.type === 'flat-turbine'}
+                    />
                   </div>
                 </div>
 
