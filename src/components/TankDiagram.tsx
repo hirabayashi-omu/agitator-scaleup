@@ -206,13 +206,13 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
               {impellerType === 'propeller' && (
                 <>
                   <path d={`M ${cx - half_hub} ${y_imp} C ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp - b_px / 4}, ${cx - half_hub - blade_w} ${y_imp} C ${cx - half_hub - blade_w} ${y_imp + b_px / 2}, ${cx - half_hub - blade_w / 2} ${y_imp}, ${cx - half_hub} ${y_imp} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
-                  <path d={`M ${cx + half_hub} ${y_imp} C ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp - b_px / 4}, ${cx + half_hub + blade_w} ${y_imp} C ${cx + half_hub + blade_w} ${y_imp + b_px / 2}, ${cx + 72 + blade_w / 2} ${y_imp}, ${cx + half_hub} ${y_imp} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <path d={`M ${cx + half_hub} ${y_imp} C ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp - b_px / 4}, ${cx + half_hub + blade_w} ${y_imp} C ${cx + half_hub + blade_w} ${y_imp + b_px / 2}, ${cx + half_hub + blade_w / 2} ${y_imp}, ${cx + half_hub} ${y_imp} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
               {impellerType === 'faudler' && (
                 <>
                   <path d={`M ${cx - half_hub} ${y_imp - b_px / 4} Q ${cx - half_hub - blade_w / 2} ${y_imp - b_px / 2}, ${cx - half_hub - blade_w} ${y_imp} L ${cx - half_hub - blade_w} ${y_imp + b_px / 2} Q ${cx - half_hub - blade_w / 2} ${y_imp + b_px / 4}, ${cx - half_hub} ${y_imp + b_px / 4} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
-                  <path d={`M ${cx + half_hub} ${y_imp - b_px / 4} Q ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + 72 + blade_w} ${y_imp} L ${cx + half_hub + blade_w} ${y_imp + b_px / 2} Q ${cx + half_hub + blade_w / 2} ${y_imp + b_px / 4}, ${cx + half_hub} ${y_imp + b_px / 4} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
+                  <path d={`M ${cx + half_hub} ${y_imp - b_px / 4} Q ${cx + half_hub + blade_w / 2} ${y_imp - b_px / 2}, ${cx + half_hub + blade_w} ${y_imp} L ${cx + half_hub + blade_w} ${y_imp + b_px / 2} Q ${cx + half_hub + blade_w / 2} ${y_imp + b_px / 4}, ${cx + half_hub} ${y_imp + b_px / 4} Z`} fill="var(--vessel-impeller-fill, #ec4899)" stroke="var(--vessel-impeller-stroke, #db2777)" strokeWidth="1.5" />
                 </>
               )}
               {(impellerType === 'flat-paddle' || impellerType === 'flat-turbine') && (
