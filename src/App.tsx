@@ -2452,8 +2452,8 @@ export default function App() {
                 {criteriaConfig.map(crit => {
                   if (!selectedCriteria[crit.id]) return null;
                   return [
-                    <Line key={`${crit.id}_Left`} yAxisId="left" type="monotone" dataKey={`${crit.id}_Left`} stroke={crit.color} strokeWidth={2} dot={false} />,
-                    <Line key={`${crit.id}_Right`} yAxisId="right" type="monotone" dataKey={`${crit.id}_Right`} stroke={crit.color} strokeWidth={2} strokeDasharray="6 4" dot={false} />
+                    <Line isAnimationActive={false} key={`${crit.id}_Left`} yAxisId="left" type="monotone" dataKey={`${crit.id}_Left`} stroke={crit.color} strokeWidth={2} dot={false} />,
+                    <Line isAnimationActive={false} key={`${crit.id}_Right`} yAxisId="right" type="monotone" dataKey={`${crit.id}_Right`} stroke={crit.color} strokeWidth={2} strokeDasharray="6 4" dot={false} />
                   ];
                 })}
               </LineChart>
@@ -2504,8 +2504,8 @@ export default function App() {
                 {criteriaConfig.map(crit => {
                   if (!selectedCriteria[crit.id]) return null;
                   return [
-                    <Line key={`${crit.id}_Left`} yAxisId="left" type="monotone" dataKey={`${crit.id}_Left`} stroke={crit.color} strokeWidth={2} dot={false} />,
-                    <Line key={`${crit.id}_Right`} yAxisId="right" type="monotone" dataKey={`${crit.id}_Right`} stroke={crit.color} strokeWidth={2} strokeDasharray="6 4" dot={false} />
+                    <Line isAnimationActive={false} key={`${crit.id}_Left`} yAxisId="left" type="monotone" dataKey={`${crit.id}_Left`} stroke={crit.color} strokeWidth={2} dot={false} />,
+                    <Line isAnimationActive={false} key={`${crit.id}_Right`} yAxisId="right" type="monotone" dataKey={`${crit.id}_Right`} stroke={crit.color} strokeWidth={2} strokeDasharray="6 4" dot={false} />
                   ];
                 })}
               </LineChart>
@@ -2542,8 +2542,8 @@ export default function App() {
                 <YAxis scale="log" domain={rushtonDomain.y} ticks={rushtonTicks.yTicks} tickFormatter={(val) => formatNumber(val)} stroke="#475569" />
                 <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#cbd5e1', borderRadius: '8px', color: '#0f172a' }} labelFormatter={(label) => `Re = ${formatNumber(label as number)}`} />
                 <Legend verticalAlign="bottom" wrapperStyle={{ paddingTop: '1.5rem', color: '#334155' }} />
-                <Line type="monotone" dataKey="NpA" name={`Tank A (${tankA.type})`} stroke="#c2410c" strokeWidth={3} dot={false} />
-                <Line type="monotone" dataKey="NpB" name={`Tank B (${tankB.type})`} stroke="#15803d" strokeWidth={3} dot={false} strokeDasharray="5 5" />
+                <Line isAnimationActive={false} type="monotone" dataKey="NpA" name={`Tank A (${tankA.type})`} stroke="#c2410c" strokeWidth={3} dot={false} />
+                <Line isAnimationActive={false} type="monotone" dataKey="NpB" name={`Tank B (${tankB.type})`} stroke="#15803d" strokeWidth={3} dot={false} strokeDasharray="5 5" />
                 {rushtonOperatingPoints.map(pt => (
                   <ReferenceDot 
                     key={pt.id} x={pt.Re} y={pt.Np} r={6} fill={pt.color} stroke="#ffffff" strokeWidth={2}
