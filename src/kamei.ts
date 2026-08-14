@@ -10,6 +10,7 @@ export interface AgitatorParams {
   B_w: number;
   n_B: number;
   n_stage: number;
+  stage_gap?: number;
 }
 
 export function calculateKameiNp(params: AgitatorParams, Re: number): number {

@@ -6,6 +6,7 @@ export interface ExtendedAgitatorParams extends AgitatorParams {
   headType?: HeadType;
   clearance?: number;
   H_T?: number;
+  stage_gap?: number;
 }
 
 export interface TankDiagramProps {
@@ -136,19 +137,19 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
   const hub_w_px = Math.max(6, d_px * 0.2);
   const half_hub = hub_w_px / 2;
 
-  const n_stages = parseInt(String(n_stage)) || 1;
+  const n_stages = Math.max(1, parseInt(String(n_stage)) || 1);
   const stages_y: number[] = [];
   const y_bottom_target = y_deepest - clearance_px - b_px / 2;
 
   if (n_stages === 1) {
     stages_y.push(y_bottom_target);
   } else {
-    const y_top_target = y_liquid + b_px / 2;
-    const available_span = y_bottom_target - y_top_target;
-    const ideal_gap = available_span / (n_stages - 1);
-    const stage_gap = Math.max(b_px * 1.3, ideal_gap);
+    const gap_m = (tankParams.stage_gap !== undefined && tankParams.stage_gap !== null && !isNaN(tankParams.stage_gap) && tankParams.stage_gap > 0)
+      ? Number(tankParams.stage_gap)
+      : d;
+    const gap_px = gap_m * scaleFactor;
     for (let i = 0; i < n_stages; i++) {
-      stages_y.push(y_bottom_target - i * stage_gap);
+      stages_y.push(y_bottom_target - i * gap_px);
     }
   }
 
@@ -157,7 +158,7 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
       <div style={{ position: 'absolute', top: 20, left: 24, fontSize: '1rem', fontWeight: 600, color: 'var(--vessel-title, #9ca3af)' }}>
-        {title} ({headType} / {impellerType})
+        {title} ({headType} / {impellerType}{n_stages >= 2 ? ` / ${n_stages}段` : ''})
       </div>
       <svg viewBox={`0 0 500 ${Math.max(300, y_deepest + 80)}`} width="100%" style={{ height: 'auto' }}>
         <defs>
@@ -254,6 +255,16 @@ export const TankDiagram: React.FC<TankDiagramProps> = ({ tankParams, liquidHeig
           {/* b Guide */}
           <line x1={cx + d_px / 2 + 25} y1={y_bottom_impeller - b_px / 2} x2={cx + d_px / 2 + 25} y2={y_bottom_impeller + b_px / 2} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
           <text x={cx + d_px / 2 + 35} y={y_bottom_impeller + 4} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="start" fontWeight="bold" stroke="none">b = {b.toFixed(3)} m</text>
+
+          {/* ΔH (Stage Gap) Guide */}
+          {n_stages >= 2 && stages_y.length >= 2 && (
+            <g>
+              <line x1={cx - d_px / 2 - 25} y1={stages_y[0]} x2={cx - d_px / 2 - 25} y2={stages_y[1]} strokeDasharray="none" strokeWidth="1.5" markerStart="url(#arrow-start)" markerEnd="url(#arrow-end)" />
+              <text x={cx - d_px / 2 - 35} y={(stages_y[0] + stages_y[1]) / 2 + 4} fill="var(--vessel-guide, #06b6d4)" fontSize="11" textAnchor="end" fontWeight="bold" stroke="none">
+                ΔH = {((stages_y[0] - stages_y[1]) / scaleFactor).toFixed(3)} m
+              </text>
+            </g>
+          )}
         </g>
       </svg>
     </div>

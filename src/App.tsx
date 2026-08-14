@@ -131,11 +131,11 @@ export default function App() {
 
   const [tankA, setTankA] = useState({ 
     D: 0.5, H_T: 0.5, V: 98.17, d: 0.15, type: 'flat-turbine', headType: 'flat' as HeadType, C: 0.1, baffled: true, n: 300, pv: 1.0,
-    b: 0.03, np: 6, theta_deg: 90, B_w: 0.05, n_B: 4, n_stage: 1 
+    b: 0.03, np: 6, theta_deg: 90, B_w: 0.05, n_B: 4, n_stage: 1, stage_gap: 0.15 
   });
   const [tankB, setTankB] = useState({ 
     D: 5.0, H_T: 5.0, V: 98175.0, d: 1.5, type: 'pitched-paddle', headType: 'flat' as HeadType, C: 1.0, baffled: true,
-    b: 0.3, np: 4, theta_deg: 45, B_w: 0.5, n_B: 4, n_stage: 1 
+    b: 0.3, np: 4, theta_deg: 45, B_w: 0.5, n_B: 4, n_stage: 1, stage_gap: 1.5 
   });
 
   const [selectedCriteria, setSelectedCriteria] = useState<Record<string, boolean>>({
@@ -144,6 +144,7 @@ export default function App() {
   });
 
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [pdfStatusText, setPdfStatusText] = useState('PDFレポート出力');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCheckboxChange = (id: string) => {
@@ -213,15 +214,17 @@ export default function App() {
 
   const generatePdf = async () => {
     setIsGeneratingPdf(true);
+    setPdfStatusText('PDF準備中...');
     
-    // Wait for React to render the offscreen templates and Recharts to draw SVGs
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // Wait for React to render offscreen templates and Recharts to draw SVGs
+    await new Promise(resolve => setTimeout(resolve, 300));
 
     try {
       const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4'
+        format: 'a4',
+        compress: true
       });
 
       const pages = [
@@ -235,6 +238,9 @@ export default function App() {
       ];
 
       for (let i = 0; i < pages.length; i++) {
+        setPdfStatusText(`PDF生成中 (${i + 1}/${pages.length})...`);
+        await new Promise(resolve => setTimeout(resolve, 30));
+
         const pageId = pages[i];
         const el = document.getElementById(pageId);
         if (!el) continue;
@@ -244,27 +250,30 @@ export default function App() {
         }
 
         const canvas = await html2canvas(el, {
-          scale: 2, // High resolution capture
+          scale: 1.5, // High clarity without excessive memory footprint
           useCORS: true,
           backgroundColor: '#ffffff',
           logging: false
         });
 
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
         const imgWidth = 210; // A4 width in mm
         const pageHeight = 297; // A4 height in mm
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         // Fit page width and clamp height to 297mm
-        doc.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pageHeight));
+        doc.addImage(imgData, 'JPEG', 0, 0, imgWidth, Math.min(imgHeight, pageHeight), undefined, 'FAST');
       }
 
+      setPdfStatusText('PDF保存中...');
+      await new Promise(resolve => setTimeout(resolve, 30));
       doc.save(`stirred_tank_scaleup_report_${new Date().toISOString().slice(0, 10)}.pdf`);
     } catch (err) {
       console.error('PDF generation error:', err);
       alert('PDFレポートの出力中にエラーが発生しました。');
     } finally {
       setIsGeneratingPdf(false);
+      setPdfStatusText('PDFレポート出力');
     }
   };
 
@@ -330,7 +339,8 @@ export default function App() {
     const P_A = Np_A * fluidDensity * Math.pow(n_rps_A, 3) * Math.pow(safe_d_A, 5);
 
     const Nq_A = getFlowNumber(tankA.type);
-    const Q_A = Nq_A * n_rps_A * Math.pow(safe_d_A, 3);
+    const n_stage_A = Math.max(tankA.n_stage || 1, 1);
+    const Q_A = Nq_A * n_rps_A * Math.pow(safe_d_A, 3) * n_stage_A;
     const qv_A = Q_A / (volA / 1000);
 
     const Fr_A = (n_rps_A * n_rps_A * safe_d_A) / 9.81;
@@ -361,7 +371,10 @@ export default function App() {
       qv: qv_A,
       tc: (volA / 1000) / Q_A,
       typeLabel: tankA.type === 'pitched-paddle' ? '傾斜パドル' : tankA.type === 'propeller' ? 'プロペラ' : tankA.type === 'flat-paddle' ? '平パドル' : tankA.type === 'flat-turbine' ? '平羽根タービン' : 'ファウドラー',
-      flowPattern: (tankA.type === 'pitched-paddle' || tankA.type === 'propeller') ? '軸流型' : (tankA.type === 'faudler' ? '旋回流型' : '輻射流型')
+      flowPattern: (tankA.type === 'pitched-paddle' || tankA.type === 'propeller') ? '軸流型' : (tankA.type === 'faudler' ? '旋回流型' : '輻射流型'),
+      n_stage: n_stage_A,
+      stage_gap: tankA.stage_gap ?? tankA.d,
+      stage_gap_mm: (tankA.stage_gap ?? tankA.d) * 1000
     };
 
     // Tank B (Scale 2) parameters
@@ -425,7 +438,8 @@ export default function App() {
       const P_B = Np_B * fluidDensity * Math.pow(n_rps_B, 3) * Math.pow(safe_d_B, 5);
 
       const Nq_B_val = getFlowNumber(tankB.type);
-      const Q_B = Nq_B_val * n_rps_B * Math.pow(safe_d_B, 3);
+      const n_stage_B = Math.max(tankB.n_stage || 1, 1);
+      const Q_B = Nq_B_val * n_rps_B * Math.pow(safe_d_B, 3) * n_stage_B;
       const qv_B = Q_B / (volB / 1000);
 
       const Fr_B = (n_rps_B * n_rps_B * safe_d_B) / 9.81;
@@ -454,7 +468,10 @@ export default function App() {
         qv: qv_B,
         tc: (volB / 1000) / Q_B,
         typeLabel: tankB.type === 'pitched-paddle' ? '傾斜パドル' : tankB.type === 'propeller' ? 'プロペラ' : tankB.type === 'flat-paddle' ? '平パドル' : tankB.type === 'flat-turbine' ? '平羽根タービン' : 'ファウドラー',
-        flowPattern: (tankB.type === 'pitched-paddle' || tankB.type === 'propeller') ? '軸流型' : (tankB.type === 'faudler' ? '旋回流型' : '輻射流型')
+        flowPattern: (tankB.type === 'pitched-paddle' || tankB.type === 'propeller') ? '軸流型' : (tankB.type === 'faudler' ? '旋回流型' : '輻射流型'),
+        n_stage: n_stage_B,
+        stage_gap: tankB.stage_gap ?? tankB.d,
+        stage_gap_mm: (tankB.stage_gap ?? tankB.d) * 1000
       };
     });
 
@@ -873,7 +890,7 @@ export default function App() {
             }}
           >
             <FileText size={16} /> 
-            {isGeneratingPdf ? 'PDF生成中...' : 'PDFレポート出力'}
+            {isGeneratingPdf ? pdfStatusText : 'PDFレポート出力'}
           </button>
         </div>
       </div>
@@ -1079,6 +1096,34 @@ export default function App() {
                   </div>
                 </div>
 
+                <div style={{ display: 'grid', gridTemplateColumns: (tankA.n_stage || 1) >= 2 ? '1fr 1fr' : '1fr', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  <div className="input-field">
+                    <label>翼段数 n_stage (段)</label>
+                    <input 
+                      type="number" 
+                      value={tankA.n_stage || 1} 
+                      onChange={e => {
+                        const val = Math.max(1, Math.floor(Number(e.target.value) || 1));
+                        setTankA({...tankA, n_stage: val, stage_gap: tankA.stage_gap || tankA.d});
+                      }} 
+                      min="1" 
+                      step="1" 
+                    />
+                  </div>
+                  {(tankA.n_stage || 1) >= 2 && (
+                    <div className="input-field">
+                      <label>段間隔 ΔH (m)</label>
+                      <input 
+                        type="number" 
+                        value={tankA.stage_gap ?? tankA.d} 
+                        onChange={e => setTankA({...tankA, stage_gap: Number(e.target.value)})} 
+                        step="0.01" 
+                        min="0.001"
+                      />
+                    </div>
+                  )}
+                </div>
+
                 <label className="checkbox-item active" style={{ display: 'flex', alignItems: 'center', marginTop: '1rem' }}>
                   <input type="checkbox" checked={tankA.baffled} onChange={e => setTankA({...tankA, baffled: e.target.checked})} />
                   <span style={{ marginLeft: '0.5rem' }}>邪魔板あり</span>
@@ -1187,6 +1232,34 @@ export default function App() {
                       disabled={tankB.type === 'flat-paddle' || tankB.type === 'flat-turbine'}
                     />
                   </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: (tankB.n_stage || 1) >= 2 ? '1fr 1fr' : '1fr', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  <div className="input-field">
+                    <label>翼段数 n_stage (段)</label>
+                    <input 
+                      type="number" 
+                      value={tankB.n_stage || 1} 
+                      onChange={e => {
+                        const val = Math.max(1, Math.floor(Number(e.target.value) || 1));
+                        setTankB({...tankB, n_stage: val, stage_gap: tankB.stage_gap || tankB.d});
+                      }} 
+                      min="1" 
+                      step="1" 
+                    />
+                  </div>
+                  {(tankB.n_stage || 1) >= 2 && (
+                    <div className="input-field">
+                      <label>段間隔 ΔH (m)</label>
+                      <input 
+                        type="number" 
+                        value={tankB.stage_gap ?? tankB.d} 
+                        onChange={e => setTankB({...tankB, stage_gap: Number(e.target.value)})} 
+                        step="0.01" 
+                        min="0.001"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <label className="checkbox-item active" style={{ display: 'flex', alignItems: 'center', marginTop: '1rem' }}>
@@ -1532,7 +1605,7 @@ export default function App() {
                         tankParams={{
                           D_T: tankA.D, H: hA, d: tankA.d, b: tankA.b, np: tankA.np, theta_deg: tankA.theta_deg,
                           impellerType: tankA.type as any, baffled: tankA.baffled, B_w: tankA.B_w, n_B: tankA.n_B, 
-                          n_stage: tankA.n_stage, headType: tankA.headType, clearance: tankA.C, H_T: tankA.H_T
+                          n_stage: tankA.n_stage, stage_gap: tankA.stage_gap, headType: tankA.headType, clearance: tankA.C, H_T: tankA.H_T
                         }} 
                         liquidHeight={hA} 
                         scaleFactor={scaleFactor} 
@@ -1545,7 +1618,7 @@ export default function App() {
                         tankParams={{
                           D_T: tankB.D, H: hB, d: tankB.d, b: tankB.b, np: tankB.np, theta_deg: tankB.theta_deg,
                           impellerType: tankB.type as any, baffled: tankB.baffled, B_w: tankB.B_w, n_B: tankB.n_B, 
-                          n_stage: tankB.n_stage, headType: tankB.headType, clearance: tankB.C, H_T: tankB.H_T
+                          n_stage: tankB.n_stage, stage_gap: tankB.stage_gap, headType: tankB.headType, clearance: tankB.C, H_T: tankB.H_T
                         }} 
                         liquidHeight={hB} 
                         scaleFactor={scaleFactor} 
@@ -2000,6 +2073,8 @@ export default function App() {
                         { key: 'typeLabel', name: 'インペラ種類', unit: '-', format: (val: any) => String(val) },
                         { key: 'flowPattern', name: 'フローパターン', unit: '-', format: (val: any) => String(val) },
                         { key: 'd', name: '翼径 d', unit: 'mm', format: (val: number) => formatNumber(val) },
+                        { key: 'n_stage', name: '翼段数', unit: '段', format: (val: number) => formatNumber(val) },
+                        { key: 'stage_gap_mm', name: '段間隔 ΔH', unit: 'mm', format: (val: number) => formatNumber(val) },
                         { key: 'qv', name: '液循環回数 (Q/V)', unit: '1/s', format: (val: number) => formatNumber(val) },
                         { key: 'tc', name: '液循環時間 tc', unit: 's', format: (val: number) => formatNumber(val) }
                       ]
@@ -2237,6 +2312,18 @@ export default function App() {
                   <td style={{ fontFamily: 'monospace' }}>{formatNumber(tankB.np)}</td>
                 </tr>
                 <tr>
+                  <td>翼段数 n_stage</td>
+                  <td style={{ fontFamily: 'monospace' }}>{formatNumber(tankA.n_stage || 1)} 段</td>
+                  <td style={{ fontFamily: 'monospace' }}>{formatNumber(tankB.n_stage || 1)} 段</td>
+                </tr>
+                {((tankA.n_stage || 1) >= 2 || (tankB.n_stage || 1) >= 2) && (
+                  <tr>
+                    <td>段間隔 ΔH (m)</td>
+                    <td style={{ fontFamily: 'monospace' }}>{(tankA.n_stage || 1) >= 2 ? formatNumber(tankA.stage_gap ?? tankA.d) : '-'}</td>
+                    <td style={{ fontFamily: 'monospace' }}>{(tankB.n_stage || 1) >= 2 ? formatNumber(tankB.stage_gap ?? tankB.d) : '-'}</td>
+                  </tr>
+                )}
+                <tr>
                   <td>邪魔板有無</td>
                   <td>{tankA.baffled ? '有' : '無'}</td>
                   <td>{tankB.baffled ? '有' : '無'}</td>
@@ -2297,7 +2384,7 @@ export default function App() {
                   tankParams={{
                     D_T: tankA.D, H: hA, d: tankA.d, b: tankA.b, np: tankA.np, theta_deg: tankA.theta_deg,
                     impellerType: tankA.type as any, baffled: tankA.baffled, B_w: tankA.B_w, n_B: tankA.n_B, 
-                    n_stage: tankA.n_stage, headType: tankA.headType, clearance: tankA.C, H_T: tankA.H_T
+                    n_stage: tankA.n_stage, stage_gap: tankA.stage_gap, headType: tankA.headType, clearance: tankA.C, H_T: tankA.H_T
                   }} 
                   liquidHeight={hA} 
                   scaleFactor={(220 / Math.max(tankA.D, tankB.D))} 
@@ -2310,7 +2397,7 @@ export default function App() {
                   tankParams={{
                     D_T: tankB.D, H: hB, d: tankB.d, b: tankB.b, np: tankB.np, theta_deg: tankB.theta_deg,
                     impellerType: tankB.type as any, baffled: tankB.baffled, B_w: tankB.B_w, n_B: tankB.n_B, 
-                    n_stage: tankB.n_stage, headType: tankB.headType, clearance: tankB.C, H_T: tankB.H_T
+                    n_stage: tankB.n_stage, stage_gap: tankB.stage_gap, headType: tankB.headType, clearance: tankB.C, H_T: tankB.H_T
                   }} 
                   liquidHeight={hB} 
                   scaleFactor={(220 / Math.max(tankA.D, tankB.D))} 
